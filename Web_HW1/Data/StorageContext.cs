@@ -8,8 +8,15 @@ namespace Web_HW1.Data
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductGroup> ProductGroups { get; set; }
         public virtual DbSet<Storage> Storages { get; set; }
+        private readonly string _dbConnectionString;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer("Data Source = WIN-Q595KQ6H928\\SQLEXPRESS; Initial Catalog = Storages; Trusted_Connection=True; TrustServerCertificate=True").UseLazyLoadingProxies().LogTo(Console.WriteLine);
+        public StorageContext() { }
+        public StorageContext(string connection)
+        {
+            _dbConnectionString = connection;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(_dbConnectionString).LogTo(Console.WriteLine);
+        //optionsBuilder.UseSqlServer("Data Source = WIN-Q595KQ6H928\\SQLEXPRESS; Initial Catalog = Storages; Trusted_Connection=True; TrustServerCertificate=True").UseLazyLoadingProxies().LogTo(Console.WriteLine);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
